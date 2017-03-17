@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=47FQtS6XkphGqmZ5nSEj6WTSTwE8SGaT"></script>
+  <title>淘票票-城市选择</title>
+  <style>
+    *, :after, :before {
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+    ul,li {
+      list-style: none;
+    }
+    blockquote, body, dd, div, dl, dt, fieldset, form, h1, h2, h3, h4, h5,
+    h6, input, legend, li, ol, p, td, textarea, th, ul {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .city-wrap {
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      opacity: 0;
+      -webkit-transform: translateY(-50px);
+      transform: translateY(-50px);
+    }
+    .city-wrap, .city-index {
+      -webkit-transition: all .2s ease-out;
+      transition: all .2s ease-out;
+    }
+    .city-wrap.top-in {
+      opacity: 1;
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+    .city-wrap .city-title {
+      z-index: 1002;
+      position: absolute;
+      top: 0;
+      border-bottom: 1px solid #e9e9e9;
+      width: 100%;
+      height: 45px;
+      background: #fff;
+      color: #000;
+      font-size: 16px;
+      line-height: 45px;
+      text-align: center;
+    }
+    .city-wrap .city-title .close {
+      position: absolute;
+      display: block;
+      top: 0;
+      right: 0;
+      width: 40px;
+      height: 40px;
+      color: #777;
+      text-align: center;
+      /*用户手触摸的按钮，大小最好不要小于30*/
+      font-size: 29px;
+    }
+    .city-wrap .city-list {
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      padding: 46px 0 0;
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
+      background: #fff;
+      color: #777;
+      font-size: 12px;
+    }
+    .city-wrap .city-list h3 {
+      margin: 0;
+      padding: 9px 12px;
+      background: #eee;
+      color: #777;
+      font-size: 12px;
+    }
+    .city-wrap .city-list ul {
+      margin: 0;
+      padding: 0;
+    }
+    a {
+      color: #0af;
+      text-decoration: none;
+    }
+    .city-wrap .city-list li a {
+      display: block;
+      border-bottom: 1px solid #e5e7e7;
+      padding: 12px;
+      overflow: hidden;
+      background: #fcfcfc;
+      color: #777;
+      font-size: 15px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="city-wrap">
+    <div class="city-title">
+      选择城市
+      <span class="close">x</span>
+    </div>
+    <div class="city-list">
+      <div class="city-category" id="当前">
+        <h3>当前</h3>
+        <ul>
+          <!-- <li data-citycode="310100" data-cityname="上海">
+            <a href="javascript:;">上海</a>
+          </li> -->
+        </ul>
+      </div>
+      <div class="city-category" id="热门">
+        <h3>热门</h3>
+        <ul>
+        </ul>
+      </div>
+      <div class="city-category" id="A">
+        <h3>A</h3>
+        <ul>
+        </ul>
+      </div>
+      <div class="city-category" id="B">
+        <h3>B</h3>
+        <ul>
+        </ul>
+      </div>
+      <div class="city-category" id="C">
+        <h3>C</h3>
+        <ul>
+        </ul>
+      </div>
+      <div class="city-category" id="N">
+        <h3>N</h3>
+        <ul>
+        </ul>
+      </div>
+    </div>
+    <div class="city-index left-in">
+      <ul>
+        <li>
+          <a href="#当前">当前</a>
+        </li>
+        <li>
+          <a href="#热门">热门</a>
+        </li>
+        <li>
+          <a href="#A">A</a>
+        </li>
+        <li>
+          <a href="#B">B</a>
+        </li>
+        <li>
+          <a href="#C">C</a>
+        </li>
+        <li>
+          <a href="#D">D</a>
+        </li>
+        <li>
+          <a href="#E">E</a>
+        </li>
+        <li>
+          <a href="#F">F</a>
+        </li>
+        <li>
+          <a href="#G">G</a>
+        </li>
+        <li>
+          <a href="#H">H</a>
+        </li>
+        <li>
+          <a href="#I">I</a>
+        </li>
+        <li>
+          <a href="#J">J</a>
+        </li>
+        <li>
+          <a href="#K">K</a>
+        </li>
+        <li>
+          <a href="#L">L</a>
+        </li>
+        <li>
+          <a href="#N">M</a>
+        </li>
+        <li>
+          <a href="">N</a>
+        </li>
+        <li>
+          <a href="#O">O</a>
+        </li>
+        <li>
+          <a href="#R">P</a>
+        </li>
+        <li>
+          <a href="#Q">Q</a>
+        </li>
+        <li>
+          <a href="#R">R</a>
+        </li>
+        <li>
+          <a href="#S">S</a>
+        </li>
+        <li>
+          <a href="#T">T</a>
+        </li>
+        <li>
+          <a href="#U">U</a>
+        </li>
+        <li>
+          <a href="#V">V</a>
+        </li>
+        <li>
+          <a href="#W">W</a>
+        </li>
+        <li>
+          <a href="#X">X</a>
+        </li>
+        <li>
+          <a href="#Y">Y</a>
+        </li>
+        <li>
+          <a href="#Z">Z</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <script>
+    const oWrap = document.querySelector('.city-wrap');
+    const oClose = document.querySelector('.close');
+    const oList = document.querySelector('.city-list');
+    oList.addEventListener('click', function(event) {
+      // alert('fdfd');
+      const ele = event.target;
+      if(ele.tagName == 'A') {
+        const city = ele.innerText;
+        localStorage.setItem('city', city);
+        document.querySelector(`#当前 ul li a`).innerHTML = city;
+      }
+    });
+    let currentCity = localStorage.getItem('city') || '';
+    function setCurrentCityHtml(city) {
+      document.querySelector(`#当前 ul`).innerHTML = `
+        <li data-cityname="${currentCity}">
+          <a href="javascript:;">${currentCity}</a>
+        </li>
+      `;
+    }
+    if(currentCity) {
+      setCurrentCityHtml(currentCity);
+    }
+    // const cityData = [
+    //   { citycode: '330000', cityname: '南昌', index: 'N'},
+    // ];
+    const cityData = {
+      '热门': [
+        { citycode: '110010', cityname: '北京'}
+      ],
+      'A': [
+        { citycode: '210010', cityname: '安庆'}
+      ],
+      'B': [
+        { citycode: '110010', cityname: '北京'}
+      ],
+      'C': [
+        { citycode: '124232', cityname: '长沙'}
+      ],
+      'N': [
+        { citycode: '330000', cityname: '南昌'},
+        { citycode: '666666', cityname: '南宁'}
+      ]
+    }
+    // function myFun(result) {
+    //   var cityName = result.name;
+    //
+    // }
+
+    var myCity = new BMap.LocalCity();
+    if(!currentCity) {
+      myCity.get(function(result) {
+        if(result.name) {
+          currentCity = result.name;
+          // 本地存储API
+          window.localStorage.setItem('city', currentCity);
+          setCurrentCityHtml(currentCity);
+        } else {
+          setCurrentCityHtml('定位失败');
+        }
+        // const cityName = result.name;
+        // alert(cityName);
+      });
+    }
+
+    window.onload = function() {
+      oWrap.classList.add('top-in');
+      oClose.addEventListener('click', function() {
+        oWrap.classList.remove('top-in');
+      });
+    }
+    for(key in cityData) {
+      const liArr = [];
+      for(city of cityData[key]) {
+        const cityHtml = `
+          <li data-citycode="${city.citycode}" data-cityname="${city.cityname}">
+            <a href="javascript:;">${city.cityname}</a>
+          </li>
+        `;
+        liArr.push(cityHtml);
+        // console.log(liArr);
+      }
+      const ulSelector = `#${key} ul`;
+      document.querySelector(ulSelector).innerHTML = liArr.join('');
+    }
+  </script>
+</body>
+</html>
